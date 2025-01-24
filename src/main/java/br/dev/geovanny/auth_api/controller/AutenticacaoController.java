@@ -2,6 +2,7 @@ package br.dev.geovanny.auth_api.controller;
 
 import br.dev.geovanny.auth_api.dto.AuthDTO;
 import br.dev.geovanny.auth_api.service.AutenticacaoService;
+import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
