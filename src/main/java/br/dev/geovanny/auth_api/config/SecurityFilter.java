@@ -33,16 +33,19 @@ public class SecurityFilter extends OncePerRequestFilter {
 
         String token = this.extrairTokenHeader(request);
 
-        if (token == null) {
-            filterChain.doFilter(request, response);
+        if (token != null) {
+            String login = autenticacaoService.validaTokenJWT(token);
+            Usuario usuario = usuarioRepository.findByLogin(login);
+
+            if (usuario == null) {
+                throw new RuntimeException("Usuário não autorizado.");
+            }
+            var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        String login = autenticacaoService.validaTokenJWT(token);
-        Usuario usuario = usuarioRepository.findByLogin(login);
-
-        var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        filterChain.doFilter(request, response);
     }
 
     public String extrairTokenHeader(HttpServletRequest request) {
