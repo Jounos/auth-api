@@ -22,16 +22,16 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioDTO salvar(UsuarioDTO usuarioDTO) {
 
-        Optional<Usuario> usuarioJaExiste = usuarioRepository.findByLogin(usuarioDTO.login());
+        Usuario usuarioJaExiste = usuarioRepository.findByLogin(usuarioDTO.login());
 
-        if (usuarioJaExiste.isPresent()) {
+        if (usuarioJaExiste == null) {
             throw new RuntimeException("Usuário já existe!!");
         }
 
         var passwordHash = passwordEncoder.encode(usuarioDTO.senha());
-        Usuario usuario = new Usuario(usuarioDTO.nome(), usuarioDTO.login(), passwordHash);
+        Usuario usuario = new Usuario(usuarioDTO.nome(), usuarioDTO.login(), passwordHash, usuarioDTO.role());
         Usuario novoUsuario = usuarioRepository.save(usuario);
 
-        return new UsuarioDTO(novoUsuario.getNome(), novoUsuario.getLogin(), novoUsuario.getSenha());
+        return new UsuarioDTO(novoUsuario.getNome(), novoUsuario.getLogin(), novoUsuario.getSenha(), novoUsuario.getRole());
     }
 }

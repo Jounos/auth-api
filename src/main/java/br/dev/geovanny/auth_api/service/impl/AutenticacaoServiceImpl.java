@@ -28,20 +28,20 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        Optional<Usuario> usuarioOptional = usuarioRepository.findByLogin(login);
-        if (usuarioOptional.isEmpty()) {
+        Usuario usuario = usuarioRepository.findByLogin(login);
+        if (usuario == null) {
             throw new UsernameNotFoundException("Usuário não encontrado. ");
         }
-        return usuarioOptional.get();
+        return usuario;
     }
 
     @Override
     public String obterToken(AuthDTO authDTO) {
-        Optional<Usuario> usuarioOptional = this.usuarioRepository.findByLogin(authDTO.login());
-        if (usuarioOptional.isEmpty()) {
-            throw new RuntimeException("Usuário não encontrado");
+        Usuario usuario = this.usuarioRepository.findByLogin(authDTO.login());
+        if (usuario == null) {
+            throw new UsernameNotFoundException("Usuário não encontrado. ");
         }
-        return this.gerarTokenJWT(usuarioOptional.get());
+        return this.gerarTokenJWT(usuario);
     }
 
     public String gerarTokenJWT(Usuario usuario) {
