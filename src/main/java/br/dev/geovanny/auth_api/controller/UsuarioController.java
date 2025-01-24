@@ -3,7 +3,6 @@ package br.dev.geovanny.auth_api.controller;
 import br.dev.geovanny.auth_api.dto.UsuarioDTO;
 import br.dev.geovanny.auth_api.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
