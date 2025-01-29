@@ -1,5 +1,6 @@
 package br.dev.geovanny.auth_api.config;
 
+import br.dev.geovanny.auth_api.infra.exceptions.BusinessException;
 import br.dev.geovanny.auth_api.model.Usuario;
 import br.dev.geovanny.auth_api.repository.UsuarioRepository;
 import br.dev.geovanny.auth_api.service.AutenticacaoService;
@@ -38,7 +39,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             Usuario usuario = usuarioRepository.findByLogin(login);
 
             if (usuario == null) {
-                throw new RuntimeException("Usuário não autorizado.");
+                throw new BusinessException("Usuário não autorizado.");
             }
             var authentication = new UsernamePasswordAuthenticationToken(usuario, null, usuario.getAuthorities());
 

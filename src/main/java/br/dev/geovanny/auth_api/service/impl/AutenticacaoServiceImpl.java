@@ -1,6 +1,7 @@
 package br.dev.geovanny.auth_api.service.impl;
 
 import br.dev.geovanny.auth_api.dto.AuthDTO;
+import br.dev.geovanny.auth_api.infra.exceptions.DevException;
 import br.dev.geovanny.auth_api.model.Usuario;
 import br.dev.geovanny.auth_api.repository.UsuarioRepository;
 import br.dev.geovanny.auth_api.service.AutenticacaoService;
@@ -54,7 +55,7 @@ public class AutenticacaoServiceImpl implements AutenticacaoService {
                     .withExpiresAt(gerarDataExpiracao())
                     .sign(algorithm);
         } catch (JWTCreationException e) {
-            throw new RuntimeException("Erro ao tentar gerar o token!" + e.getMessage());
+            throw new DevException("Erro ao tentar gerar o token!" + e.getMessage());
         }
     }
 

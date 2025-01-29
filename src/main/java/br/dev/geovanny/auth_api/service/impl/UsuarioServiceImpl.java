@@ -1,6 +1,7 @@
 package br.dev.geovanny.auth_api.service.impl;
 
 import br.dev.geovanny.auth_api.dto.UsuarioDTO;
+import br.dev.geovanny.auth_api.infra.exceptions.BusinessException;
 import br.dev.geovanny.auth_api.model.Usuario;
 import br.dev.geovanny.auth_api.repository.UsuarioRepository;
 import br.dev.geovanny.auth_api.service.UsuarioService;
@@ -23,7 +24,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario usuarioJaExiste = usuarioRepository.findByLogin(usuarioDTO.login());
 
         if (usuarioJaExiste != null) {
-            throw new RuntimeException("Usuário já existe!!");
+            throw new BusinessException("Usuário já existe!!");
         }
 
         var passwordHash = passwordEncoder.encode(usuarioDTO.senha());
